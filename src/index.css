@@ -48,6 +48,16 @@ h1 {
   cursor: pointer;
 }
 
+:global(.InviteBtn) {
+  margin-top: 0px;
+}
+
+:global(.SaveBtn) {
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 :global(.PageBtn) {
   display: inline-block;
   width:50%;
@@ -78,13 +88,20 @@ h1 {
   background: rgba(0,0,0,0.2);
 }
 
-:global(.EventInfo), :global(.Create) {
+:global(.EventInfo) {
   display: block;
   max-width: 300px;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 30px;
+}
 
+:global(.Create) {
+  display: block;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 30px;
 }
 
 :global(.Holder) {
@@ -104,9 +121,22 @@ h1 {
 }
 
 :global(.Date) {
-  margin-top: 20px;
+  margin-top: 0px;
 }
 
+:global(.Info) {
+  display: inline-block;
+  width: 270px;  
+  padding:10px;
+  vertical-align: top;
+}
+
+:global(.Invite) {
+  display: inline-block;
+  width: 300px;
+  vertical-align: top;
+  padding:10px;
+}
 
 
 textarea {

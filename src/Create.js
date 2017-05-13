@@ -41,6 +41,8 @@ class Create extends Component {
     this.handleAccChange = this.handleAccChange.bind(this);
     this.findUser = this.findUser.bind(this);
     this.clickSave = this.clickSave.bind(this);
+    this.deleteDate = this.deleteDate.bind(this);
+    this.deleteInvitee = this.deleteInvitee.bind(this);
   }
 
   handleDateChange(date) {
@@ -53,7 +55,6 @@ class Create extends Component {
     this.setState({
       startDate: date
     });
-    console.log(this.state.dates);
   }
 
   handleTitleChange(e) {
@@ -73,7 +74,8 @@ class Create extends Component {
     	this.state.dates, this.state.invitees);
   }
 
-  findUser() {    
+  findUser() {
+    if(this.state.inviteeAcc !== '') {
       if(this.state.inviteeAcc === this.props.user) {
         this.props.onAlert('Cannot invite yourself!');
         this.setState({ inviteeAcc: ''});
@@ -89,52 +91,76 @@ class Create extends Component {
           this.setState({ waiting: false, inviteeAcc: ''});
         });
       }
-    
+    }
+  }
+
+  deleteDate(date) {
+    const dates = this.state.dates;
+    dates.splice(dates.indexOf(date), 1);
+    this.setState(dates: dates);
+  }
+
+  deleteInvitee(inv) {
+    const invitees = this.state.invitees;
+    invitees.splice(invitees.indexOf(inv), 1);
+    this.setState(invitees: invitees);
   }
 
   render() {
     const dot = '\u25cf';
     const colon = '\uff1a';
     const SELECTED = this.state.dates.map((date) =>
-        <Selected key={date} selected={date} />);
-    const INVITEES = this.state.invitees.map((invitee, i) =>
-      <Selected key={i} selected={invitee} />);
+      <Selected key={date} selected={date}
+        onDelete={this.deleteDate}/>);
+    const INVITEES = this.state.invitees.map((invitee) =>
+      <Selected key={invitee} selected={invitee}
+        onDelete={this.deleteInvitee}/>);
     
     return (
       <div className="Create">
-        <input
-          disabled={(this.state.waiting) ? 'disabled' : null}
-          type="text" placeholder="title"
-          onChange={this.handleTitleChange}
-        />
-        <textarea
-          disabled={(this.state.waiting) ? 'disabled' : null}
-          type="text" placeholder="description"
-          onChange={this.handleDescriptionChange}
-        />
-        <div className="Date">
-          <DatePicker
-            inline
-            selected={this.state.startDate}
-            onChange={this.handleDateChange}
+        <div className="Info">
+          <input
+            disabled={(this.state.waiting) ? 'disabled' : null}
+            type="text" placeholder="title"
+            onChange={this.handleTitleChange}
+          />
+          <textarea
+            disabled={(this.state.waiting) ? 'disabled' : null}
+            type="text" placeholder="description"
+            onChange={this.handleDescriptionChange}
           />
         </div>
-        {dot} Selected{colon}
-        {SELECTED}
 
-        <input
-          disabled={(this.state.waiting) ? 'disabled' : null}
-          type="text" placeholder="invitee's account"
-          value={this.state.inviteeAcc}
-          onChange={this.handleAccChange}
-        />
-        <div className="LogSignBtn"
-          onClick={this.findUser}>
-          Invite
+        <div className="Info">
+          <div className="Date">
+            <DatePicker
+              inline
+              selected={this.state.startDate}
+              onChange={this.handleDateChange}
+            />
+          </div>
+          {(this.state.dates.length>0) ?
+            <span> {dot} Selected{colon} </span> : null }
+          {SELECTED}
         </div>
-        {INVITEES}
 
-        <div className="LogSignBtn"
+        <div className="Info">
+          <input
+            disabled={(this.state.waiting) ? 'disabled' : null}
+            type="text" placeholder="invitee's account"
+            value={this.state.inviteeAcc}
+            onChange={this.handleAccChange}
+          />
+          <div className="LogSignBtn InviteBtn"
+            onClick={this.findUser}>
+            Invite
+          </div>
+          {(this.state.invitees.length>0) ?
+            <span> {dot} Invitees{colon} </span> : null }
+          {INVITEES}
+        </div>
+
+        <div className="LogSignBtn SaveBtn"
           onClick={this.clickSave}>
           Save
         </div>
