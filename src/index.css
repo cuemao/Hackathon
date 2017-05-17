@@ -1,19 +1,20 @@
 html {
-  background-color: aliceblue;
+  background-color: lavender;
 }
 
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: monospace;
 }
 
 h1 {
   margin: 10px 10px 10px 10px;
+  font-family: fantasy;
 }
 
 :global(.App) {
-  font-family: Arial, Microsoft JhengHei;
+  font-family: monospace, Arial, Microsoft JhengHei;
   text-align: center;
 }
 
@@ -25,6 +26,7 @@ h1 {
   color: black;
   padding: 10px;
 }
+
 
 :global(.Entry) {
   display: block;
@@ -93,7 +95,6 @@ h1 {
   max-width: 300px;
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 30px;
 }
 
 :global(.Create) {
@@ -117,11 +118,80 @@ h1 {
 }
 
 :global(.Selected) {
-  display: block;
+  display: -webkit-flex;
+  display: flex;
+  width: 60%;
+  margin-top:5px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-:global(.Date) {
-  margin-top: 0px;
+:global(.DeleteBtn) {
+  -webkit-flex: 1;
+  flex: 1;
+}
+
+:global(.Options) {
+  margin-top: 20px;
+}
+
+:global(.OptionRow) {
+  display: -webkit-flex;
+  display: flex;
+  max-width: 300px;
+  height: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 30px;
+  background: rgba(0,0,0,0.1);
+}
+
+:global(.CheckBox) {
+  -webkit-flex: 1;
+  flex: 1;
+  padding: 5px;
+  margin-right: 10px;
+}
+
+:global(.Time) {
+  -webkit-flex: 9;
+  flex: 9;
+  position: relative;
+  text-align: left;  
+}
+
+:global(.Name) {
+  -webkit-flex: 9;
+  flex: 9;
+}
+
+:global(.Percentage) {
+  display: block;
+  height: 100%;
+  background: rgba(0,0,0,0.3);
+  overflow: hidden;
+  position: absolute;
+  text-align: left;
+}
+
+:global(.Count) {
+  -webkit-flex:1;
+  flex: 1;
+}
+
+:global(.OptionRow:hover) {
+  cursor: default;
+}
+
+:global(.Selected:hover) {
+  cursor: default;
+  background: rgba(0,0,0,0.2);
+}
+
+:global(.DeleteBtn:hover), :global(.CheckBox:hover),
+:global(.Count:hover) {
+  filter: invert(1);
+  cursor: pointer;
 }
 
 :global(.Info) {
@@ -138,6 +208,23 @@ h1 {
   padding:10px;
 }
 
+:global(.Header:hover), :global(.Selected:hover),
+:global(.EventInfo:hover), :global(.Create:hover) {
+  cursor: default;
+}
+
+:global(.None) {
+  -webkit-flex: 8;
+  flex: 8;
+}
+:global(.Check) {
+  text-align: right;
+  font-weight: bold;
+}
+
+:global(.Participant) {
+  margin-left: 50px;
+}
 
 textarea {
   resize: none;
@@ -150,7 +237,7 @@ textarea {
   outline: medium;
   text-align: center;
   font-size: large;
-  font-family: Arial, Microsoft JhengHei;
+  font-family: monospace, Arial, Microsoft JhengHei;
   margin-top: 5px;
 }
 
@@ -164,7 +251,7 @@ input {
   outline: medium;
   text-align: center;
   font-size: large;
-  font-family: Arial, Microsoft JhengHei;
+  font-family: monospace, Arial, Microsoft JhengHei;
 }
 
 input:disabled, textarea:disabled {

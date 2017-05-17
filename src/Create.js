@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
-import Selected from './Selected';
-import './index.css';
 import 'react-datepicker/dist/react-datepicker.css';
+import Selected from './Selected';
 
 function to2Digits(str) {
   return (`0${str}`).slice(-2);
@@ -20,7 +19,7 @@ function getTimeStr(str) {
   weekday[5] = 'Fri';
   weekday[6] = 'Sat';
   return `${time.getFullYear()}/${to2Digits(time.getMonth() + 1)}/` +
-    `${to2Digits(time.getDate())} (${weekday[time.getDay()]})`
+    `${to2Digits(time.getDate())} (${weekday[time.getDay()]})`;
 }
 
 class Create extends Component {
@@ -52,15 +51,13 @@ class Create extends Component {
       dates.push(dateStr);
       dates.sort();
     }
-    this.setState({
-      startDate: date
-    });
+    this.setState({ startDate: date });
   }
 
   handleTitleChange(e) {
     this.setState({ title: e.target.value });
   }
-  
+
   handleDescriptionChange(e) {
     this.setState({ description: e.target.value });
   }
@@ -71,24 +68,25 @@ class Create extends Component {
 
   clickSave() {
     this.props.onCreateEvent(this.state.title, this.state.description,
-    	this.state.dates, this.state.invitees);
+      this.state.dates, this.state.invitees);
   }
 
   findUser() {
-    if(this.state.inviteeAcc !== '') {
-      if(this.state.inviteeAcc === this.props.user) {
+    if (this.state.inviteeAcc !== '' &&
+      this.state.invitees.find((i) =>
+        i === this.state.inviteeAcc) === undefined) {
+      if (this.state.inviteeAcc === this.props.user) {
         this.props.onAlert('Cannot invite yourself!');
-        this.setState({ inviteeAcc: ''});
+        this.setState({ inviteeAcc: '' });
       } else {
         this.setState({ waiting: true });
         this.props.onFindUser(this.state.inviteeAcc)
         .then((res) => {
-          console.log(res.data);
           if (res.data.user !== undefined) {
             const invitees = this.state.invitees;
             invitees.push(this.state.inviteeAcc);
-          } else this.props.onAlert("User not found!");
-          this.setState({ waiting: false, inviteeAcc: ''});
+          } else this.props.onAlert('User not found!');
+          this.setState({ waiting: false, inviteeAcc: '' });
         });
       }
     }
@@ -97,36 +95,44 @@ class Create extends Component {
   deleteDate(date) {
     const dates = this.state.dates;
     dates.splice(dates.indexOf(date), 1);
-    this.setState(dates: dates);
+    this.setState({ dates: dates });
   }
 
   deleteInvitee(inv) {
     const invitees = this.state.invitees;
     invitees.splice(invitees.indexOf(inv), 1);
-    this.setState(invitees: invitees);
+    this.setState({ invitees: invitees });
   }
 
   render() {
     const dot = '\u25cf';
     const colon = '\uff1a';
     const SELECTED = this.state.dates.map((date) =>
-      <Selected key={date} selected={date}
-        onDelete={this.deleteDate}/>);
+      <Selected
+        key={date}
+        selected={date}
+        onDelete={this.deleteDate}
+      />);
     const INVITEES = this.state.invitees.map((invitee) =>
-      <Selected key={invitee} selected={invitee}
-        onDelete={this.deleteInvitee}/>);
-    
+      <Selected
+        key={invitee}
+        selected={invitee}
+        onDelete={this.deleteInvitee}
+      />);
+
     return (
       <div className="Create">
         <div className="Info">
           <input
             disabled={(this.state.waiting) ? 'disabled' : null}
-            type="text" placeholder="title"
+            type="text"
+            placeholder="title"
             onChange={this.handleTitleChange}
           />
           <textarea
             disabled={(this.state.waiting) ? 'disabled' : null}
-            type="text" placeholder="description"
+            type="text"
+            placeholder="description"
             onChange={this.handleDescriptionChange}
           />
         </div>
@@ -139,7 +145,7 @@ class Create extends Component {
               onChange={this.handleDateChange}
             />
           </div>
-          {(this.state.dates.length>0) ?
+          {(this.state.dates.length > 0) ?
             <span> {dot} Selected{colon} </span> : null }
           {SELECTED}
         </div>
@@ -147,27 +153,39 @@ class Create extends Component {
         <div className="Info">
           <input
             disabled={(this.state.waiting) ? 'disabled' : null}
-            type="text" placeholder="invitee's account"
+            type="text"
+            placeholder="invitee's account"
             value={this.state.inviteeAcc}
             onChange={this.handleAccChange}
           />
-          <div className="LogSignBtn InviteBtn"
-            onClick={this.findUser}>
+          <div
+            className="LogSignBtn InviteBtn"
+            onClick={this.findUser}
+          >
             Invite
           </div>
-          {(this.state.invitees.length>0) ?
+          {(this.state.invitees.length > 0) ?
             <span> {dot} Invitees{colon} </span> : null }
           {INVITEES}
         </div>
 
-        <div className="LogSignBtn SaveBtn"
-          onClick={this.clickSave}>
+        <div
+          className="LogSignBtn SaveBtn"
+          onClick={this.clickSave}
+        >
           Save
         </div>
       </div>
-      
+
     );
   }
 }
+
+Create.propTypes = {
+  user: React.PropTypes.string,
+  onCreateEvent: React.PropTypes.func,
+  onAlert: React.PropTypes.func,
+  onFindUser: React.PropTypes.func,
+};
 
 export default Create;

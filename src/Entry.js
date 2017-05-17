@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './index.css';
 
 class Entry extends Component {
   constructor(props) {
@@ -23,7 +22,7 @@ class Entry extends Component {
   handleAccChange(e) {
     this.setState({ acc: e.target.value });
   }
-  
+
   handlePwdChange(e) {
     this.setState({ pwd: e.target.value });
   }
@@ -31,25 +30,25 @@ class Entry extends Component {
   handleEmailChange(e) {
     this.setState({ email: e.target.value });
   }
-  
+
   clickLogin() {
-    this.setState({ func: 'login', acc: '', pwd: ''});
+    this.setState({ func: 'login', acc: '', pwd: '' });
   }
 
   clickSignup() {
-    this.setState({ 
+    this.setState({
       func: 'signup',
       acc: '',
       pwd: '',
-      email: ''
+      email: '',
     });
   }
 
   sendLogin(e) {
     if (e.key === 'Enter' &&
       this.state.acc !== '' && this.state.pwd !== '') {
-        this.setState({ waiting: true });
-        this.props.onSendLogin(this.state.acc, this.state.pwd)
+      this.setState({ waiting: true });
+      this.props.onSendLogin(this.state.acc, this.state.pwd)
         .then(() => {
           this.setState({ waiting: false });
         });
@@ -60,12 +59,12 @@ class Entry extends Component {
     if (e.key === 'Enter' &&
       this.state.acc !== '' && this.state.pwd !== '' &&
       this.state.email !== '') {
-        this.setState({ waiting: true });
-        this.props.onSendSignup(this.state.acc, this.state.pwd,
-          this.state.email)
-          .then(() => {
-            this.setState({ waiting: false });
-          });
+      this.setState({ waiting: true });
+      this.props.onSendSignup(this.state.acc, this.state.pwd,
+        this.state.email)
+        .then(() => {
+          this.setState({ waiting: false });
+        });
     }
   }
 
@@ -74,13 +73,15 @@ class Entry extends Component {
       <div>
         <input
           disabled={(this.state.waiting) ? 'disabled' : null}
-          type="text" placeholder="account"
+          type="text"
+          placeholder="account"
           onChange={this.handleAccChange}
           onKeyPress={this.sendLogin}
         />
         <input
           disabled={(this.state.waiting) ? 'disabled' : null}
-          type="text" placeholder="password"
+          type="text"
+          placeholder="password"
           onChange={this.handlePwdChange}
           onKeyPress={this.sendLogin}
         />
@@ -90,25 +91,27 @@ class Entry extends Component {
       <div>
         <input
           disabled={(this.state.waiting) ? 'disabled' : null}
-          type="text" placeholder="account"
+          type="text"
+          placeholder="account"
           onChange={this.handleAccChange}
           onKeyPress={this.sendSignup}
         />
         <input
           disabled={(this.state.waiting) ? 'disabled' : null}
-          type="text" placeholder="password"
+          type="text"
+          placeholder="password"
           onChange={this.handlePwdChange}
           onKeyPress={this.sendSignup}
         />
         <input
           disabled={(this.state.waiting) ? 'disabled' : null}
-          type="text" placeholder="E-mail address"
+          type="text"
+          placeholder="E-mail address"
           onChange={this.handleEmailChange}
           onKeyPress={this.sendSignup}
         />
       </div> : null;
-   
-    
+
     return (
       <div className="App">
         <div className="Entry">
@@ -121,5 +124,10 @@ class Entry extends Component {
     );
   }
 }
+
+Entry.propTypes = {
+  onSendLogin: React.PropTypes.func,
+  onSendSignup: React.PropTypes.func,
+};
 
 export default Entry;

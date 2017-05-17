@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './index.css';
 
 class EventRow extends Component {
   constructor(props) {
@@ -13,13 +12,20 @@ class EventRow extends Component {
 
   render() {
     return (
-      <div 
+      <div
         className="EventRow"
-        onClick={this.clicked}>
+        onClick={this.clicked}
+      >
         {this.props.title}
       </div>
     );
   }
 }
+
+EventRow.propTypes = {
+  onClick: React.PropTypes.func,
+  idx: React.PropTypes.number,
+  title: React.PropTypes.string,
+};
 
 export default EventRow;

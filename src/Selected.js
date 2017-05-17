@@ -1,6 +1,5 @@
-/*eslint-disable*/
 import React, { Component } from 'react';
-import './index.css';
+import deleteIco from './pic/delete.png';
 
 class Selected extends Component {
   constructor(props) {
@@ -11,14 +10,27 @@ class Selected extends Component {
   deleteItem() {
     this.props.onDelete(this.props.selected);
   }
-  
+
   render() {
     return (
-      <div className="Selected" onClick={this.deleteItem}>
-        {this.props.selected}
+      <div className="Selected">
+        <img
+          alt="Delete"
+          className="DeleteBtn"
+          src={deleteIco}
+          onClick={this.deleteItem}
+        />
+        <div className="Name">
+          {this.props.selected}
+        </div>
       </div>
     );
   }
 }
+
+Selected.propTypes = {
+  selected: React.PropTypes.string,
+  onDelete: React.PropTypes.func,
+};
 
 export default Selected;
